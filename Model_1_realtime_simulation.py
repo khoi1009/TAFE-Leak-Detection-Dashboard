@@ -489,12 +489,6 @@ class SchoolLeakDetector:
             )
 
         fig.update_layout(
-            title=dict(
-                text="<b>Confidence Evolution</b>",
-                font=dict(size=12, color="white"),
-                x=0.5,
-                xanchor="center",
-            ),
             xaxis=dict(
                 title="",
                 showgrid=False,
@@ -508,7 +502,7 @@ class SchoolLeakDetector:
             ),
             template="plotly_dark",
             height=200,
-            margin=dict(l=50, r=20, t=40, b=30),
+            margin=dict(l=50, r=20, t=20, b=30),
             paper_bgcolor="rgba(30,30,30,1)",
             plot_bgcolor="rgba(20,20,20,1)",
             showlegend=False,
@@ -1191,7 +1185,7 @@ class SchoolLeakDetector:
             ),
             template="plotly_dark",
             hovermode="x unified",
-            height=400,
+            autosize=True,
             margin=dict(l=70, r=30, t=100, b=60),
             legend=dict(
                 orientation="h",
@@ -1329,7 +1323,7 @@ class SchoolLeakDetector:
                 rangemode="tozero",
             ),
             template="plotly_dark",
-            height=380,
+            autosize=True,
             hovermode="x unified",
             margin=dict(l=60, r=30, t=70, b=50),
             legend=dict(
@@ -1387,7 +1381,7 @@ class SchoolLeakDetector:
         if not daily_data:
             fig = go.Figure()
             fig.add_annotation(text="No data available", x=0.5, y=0.5, showarrow=False)
-            fig.update_layout(template="plotly_dark", height=350)
+            fig.update_layout(template="plotly_dark", autosize=True)
             return fig
 
         df_daily = pd.DataFrame(daily_data)
@@ -1481,7 +1475,7 @@ class SchoolLeakDetector:
                 rangemode="tozero",
             ),
             template="plotly_dark",
-            height=380,
+            autosize=True,
             hovermode="x unified",
             margin=dict(l=60, r=30, t=70, b=70),
             legend=dict(
@@ -1651,7 +1645,7 @@ class SchoolLeakDetector:
             ),
             barmode="group",
             template="plotly_dark",
-            height=520,
+            autosize=True,
             margin=dict(l=60, r=30, t=60, b=160),
             legend=dict(
                 orientation="h",

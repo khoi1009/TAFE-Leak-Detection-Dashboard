@@ -100,7 +100,9 @@ def compute_or_refresh_site(site_id, up_to_date, start_date=None, warmup_days=No
             else int(cfg.get("baseline_window_days", 28))
         )
         lb = sd - pd.Timedelta(days=wd)
-        log.info(f"{site_id}: Warmup of {wd} days; lower bound = {lb.date()}")
+        log.info(
+            f"{site_id}: START_DATE={sd.date()}, Warmup of {wd} days; lower bound = {lb.date()}"
+        )
     else:
         lb = pd.to_datetime(df_full["time"].min())
         wd = 0

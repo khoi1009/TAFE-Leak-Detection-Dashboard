@@ -113,10 +113,10 @@ def create_controls():
                             ],
                             className="mb-4",
                         ),
-                        # Controls Row - RESPONSIVE with all breakpoints
+                        # Controls Row 1 - Site and Date Range on same line
                         dbc.Row(
                             [
-                                # Site Dropdown - Full width on mobile
+                                # Site Dropdown
                                 dbc.Col(
                                     [
                                         html.Label(
@@ -153,12 +153,12 @@ def create_controls():
                                         ),
                                     ],
                                     xs=12,
-                                    sm=12,
-                                    md=4,
-                                    lg=4,
+                                    sm=6,
+                                    md=6,
+                                    lg=6,
                                     className="mb-3 mb-md-0",
                                 ),
-                                # Date Range - Full width on mobile
+                                # Date Range
                                 dbc.Col(
                                     [
                                         html.Label(
@@ -187,25 +187,19 @@ def create_controls():
                                     ],
                                     xs=12,
                                     sm=6,
-                                    md=5,
-                                    lg=5,
-                                    className="mb-3 mb-md-0 text-center",
+                                    md=6,
+                                    lg=6,
+                                    className="mb-3 mb-md-0",
                                 ),
-                                # Pause Toggle - Touch-friendly
+                            ],
+                            className="g-2 g-md-3 mb-3",
+                        ),
+                        # Controls Row 2 - Options on same line
+                        dbc.Row(
+                            [
+                                # Pause Toggle
                                 dbc.Col(
                                     [
-                                        html.Label(
-                                            "Options",
-                                            style={
-                                                "fontSize": "0.8rem",
-                                                "fontWeight": "500",
-                                                "color": "#A1A1AA",
-                                                "textTransform": "uppercase",
-                                                "letterSpacing": "0.025em",
-                                                "marginBottom": "8px",
-                                                "display": "block",
-                                            },
-                                        ),
                                         dbc.Checklist(
                                             id="pause-toggle",
                                             options=[
@@ -222,16 +216,18 @@ def create_controls():
                                                 else []
                                             ),
                                             switch=True,
-                                            style={"minHeight": "44px"},
+                                            inline=True,
+                                            style={"minHeight": "38px"},
                                         ),
                                     ],
                                     xs=12,
-                                    sm=6,
-                                    md=3,
-                                    lg=3,
+                                    sm=12,
+                                    md=12,
+                                    lg=12,
+                                    className="d-flex align-items-center",
                                 ),
                             ],
-                            className="g-2 g-md-3 mb-4",
+                            className="g-2 mb-4",
                         ),
                         # Action Buttons - Professional styling
                         html.Div(
@@ -385,7 +381,7 @@ def create_overview_tab():
                                         style={"height": "100px"},
                                         className="kpi-graph",
                                     ),
-                                    style={"padding": "16px"},
+                                    className="p-3",
                                 ),
                             ],
                             className="kpi-card kpi-card--danger",
@@ -421,7 +417,7 @@ def create_overview_tab():
                                         style={"height": "100px"},
                                         className="kpi-graph",
                                     ),
-                                    style={"padding": "16px"},
+                                    className="p-3",
                                 ),
                             ],
                             className="kpi-card kpi-card--primary",
@@ -457,7 +453,7 @@ def create_overview_tab():
                                         style={"height": "100px"},
                                         className="kpi-graph",
                                     ),
-                                    style={"padding": "16px"},
+                                    className="p-3",
                                 ),
                             ],
                             className="kpi-card kpi-card--warning",
@@ -493,7 +489,7 @@ def create_overview_tab():
                                         style={"height": "100px"},
                                         className="kpi-graph",
                                     ),
-                                    style={"padding": "16px"},
+                                    className="p-3",
                                 ),
                             ],
                             className="kpi-card kpi-card--info",
@@ -685,16 +681,8 @@ def create_events_tab():
 
     UI UX Pro Max: Card-Based Interface (#22) + Split-Screen Layout (#38)
     """
-    # Section header style
-    section_header_style = {
-        "fontSize": "1rem",
-        "fontWeight": "600",
-        "color": "#F4F4F5",
-        "display": "flex",
-        "alignItems": "center",
-        "gap": "8px",
-        "marginBottom": "16px",
-    }
+    # Section header style - DEPRECATED, use .section-header class
+    # section_header_style = { ... }
 
     return dbc.Tab(
         label="🚨 Events",
@@ -717,14 +705,14 @@ def create_events_tab():
                                                     html.Span("📋", className="me-2"),
                                                     "Incidents",
                                                 ],
-                                                style=section_header_style,
+                                                className="section-header",
                                             ),
                                             html.Span(
                                                 id="incident-count-badge",
                                                 className="status-badge status-badge--warning",
                                                 style={
-                                                    "fontSize": "0.75rem",
-                                                    "padding": "4px 10px",
+                                                    "fontSize": "0.9rem",
+                                                    "padding": "5px 12px",
                                                 },
                                             ),
                                         ],
@@ -734,11 +722,7 @@ def create_events_tab():
                                             "alignItems": "center",
                                         },
                                     ),
-                                    style={
-                                        "backgroundColor": "transparent",
-                                        "borderBottom": "1px solid rgba(255,255,255,0.06)",
-                                        "padding": "16px 20px",
-                                    },
+                                    className="card-header-custom",
                                 ),
                                 dbc.CardBody(
                                     dcc.Loading(
@@ -779,15 +763,10 @@ def create_events_tab():
                                                     },
                                                 )
                                             ],
-                                            className="incident-list",
-                                            style={
-                                                "maxHeight": "75vh",
-                                                "overflowY": "auto",
-                                                "paddingRight": "4px",
-                                            },
+                                            className="incident-list incident-list-container",
                                         ),
                                     ),
-                                    style={"padding": "8px"},
+                                    className="p-2",
                                 ),
                             ],
                             style=CARD_STYLE,
@@ -808,142 +787,108 @@ def create_events_tab():
                                             html.Span("🔍", className="me-2"),
                                             "Event Details",
                                         ],
-                                        style=section_header_style,
+                                        className="section-header",
                                     ),
-                                    style={
-                                        "backgroundColor": "transparent",
-                                        "borderBottom": "1px solid rgba(255,255,255,0.06)",
-                                        "padding": "16px 20px",
-                                    },
+                                    className="card-header-custom",
                                 ),
                                 dbc.CardBody(
                                     [
                                         html.Div(
                                             id="event-detail-header", className="mb-3"
                                         ),
-                                        # Metrics Row - Gauge + Evolution + Sub-signals in one row
+                                        # Row 1: Confidence Gauge + Confidence Trend
                                         dbc.Row(
                                             [
-                                                # Confidence Gauge - Compact
+                                                # Confidence Gauge
                                                 dbc.Col(
                                                     html.Div(
                                                         [
                                                             html.Div(
                                                                 "Confidence",
+                                                                className="metric-label text-center",
                                                                 style={
-                                                                    "fontSize": "0.7rem",
-                                                                    "color": "#71717A",
-                                                                    "textTransform": "uppercase",
-                                                                    "letterSpacing": "0.05em",
-                                                                    "textAlign": "center",
-                                                                    "marginBottom": "4px",
-                                                                },
-                                                            ),
-                                                            dcc.Graph(
-                                                                id="gauge-confidence",
-                                                                config={
-                                                                    "displayModeBar": False,
-                                                                    "responsive": True,
-                                                                },
-                                                                style={
-                                                                    "height": "120px",
-                                                                    "width": "100%",
-                                                                },
-                                                            ),
-                                                        ],
-                                                        style={
-                                                            "backgroundColor": "rgba(255,255,255,0.02)",
-                                                            "border": "1px solid rgba(255,255,255,0.06)",
-                                                            "borderRadius": "12px",
-                                                            "padding": "12px 8px 8px 8px",
-                                                            "height": "100%",
-                                                        },
-                                                    ),
-                                                    xs=4,
-                                                    sm=4,
-                                                    md=3,
-                                                    lg=3,
-                                                    className="d-flex",
-                                                ),
-                                                # Confidence Evolution - Takes more space
-                                                dbc.Col(
-                                                    html.Div(
-                                                        [
-                                                            html.Div(
-                                                                "Confidence Trend",
-                                                                style={
-                                                                    "fontSize": "0.7rem",
-                                                                    "color": "#71717A",
-                                                                    "textTransform": "uppercase",
-                                                                    "letterSpacing": "0.05em",
-                                                                    "marginBottom": "4px",
-                                                                },
-                                                            ),
-                                                            dcc.Graph(
-                                                                id="chart-confidence-evolution",
-                                                                config={
-                                                                    "displayModeBar": False,
-                                                                    "responsive": True,
-                                                                },
-                                                                style={
-                                                                    "height": "120px",
-                                                                    "width": "100%",
-                                                                },
-                                                            ),
-                                                        ],
-                                                        style={
-                                                            "backgroundColor": "rgba(255,255,255,0.02)",
-                                                            "border": "1px solid rgba(255,255,255,0.06)",
-                                                            "borderRadius": "12px",
-                                                            "padding": "12px 8px 8px 8px",
-                                                            "height": "100%",
-                                                        },
-                                                    ),
-                                                    xs=8,
-                                                    sm=8,
-                                                    md=5,
-                                                    lg=5,
-                                                    className="d-flex",
-                                                ),
-                                                # Sub-signals - Compact vertical list
-                                                dbc.Col(
-                                                    html.Div(
-                                                        [
-                                                            html.Div(
-                                                                "Detection Signals",
-                                                                style={
-                                                                    "fontSize": "0.7rem",
-                                                                    "color": "#71717A",
-                                                                    "textTransform": "uppercase",
-                                                                    "letterSpacing": "0.05em",
                                                                     "marginBottom": "8px",
+                                                                    "position": "relative",
+                                                                    "zIndex": "10",
                                                                 },
                                                             ),
                                                             html.Div(
-                                                                id="detail-subscores",
+                                                                dcc.Graph(
+                                                                    id="gauge-confidence",
+                                                                    config={
+                                                                        "displayModeBar": False,
+                                                                        "responsive": True,
+                                                                    },
+                                                                    style={
+                                                                        "height": "160px"
+                                                                    },
+                                                                ),
                                                                 style={
-                                                                    "display": "flex",
-                                                                    "flexDirection": "column",
-                                                                    "gap": "4px",
+                                                                    "overflow": "hidden"
                                                                 },
                                                             ),
                                                         ],
+                                                        className="metric-container",
                                                         style={
-                                                            "backgroundColor": "rgba(255,255,255,0.02)",
-                                                            "border": "1px solid rgba(255,255,255,0.06)",
-                                                            "borderRadius": "12px",
-                                                            "padding": "12px",
-                                                            "height": "100%",
+                                                            "padding": "14px 8px 8px 8px"
                                                         },
                                                     ),
-                                                    xs=12,
-                                                    sm=12,
+                                                    xs=5,
+                                                    sm=4,
                                                     md=4,
                                                     lg=4,
-                                                    className="d-flex mt-2 mt-md-0",
+                                                ),
+                                                # Confidence Evolution
+                                                dbc.Col(
+                                                    html.Div(
+                                                        [
+                                                            html.Div(
+                                                                dcc.Graph(
+                                                                    id="chart-confidence-evolution",
+                                                                    config={
+                                                                        "displayModeBar": False,
+                                                                        "responsive": True,
+                                                                    },
+                                                                    style={
+                                                                        "height": "160px"
+                                                                    },
+                                                                ),
+                                                                style={
+                                                                    "overflow": "hidden"
+                                                                },
+                                                            ),
+                                                        ],
+                                                        className="metric-container",
+                                                        style={
+                                                            "padding": "14px 8px 8px 8px"
+                                                        },
+                                                    ),
+                                                    xs=7,
+                                                    sm=8,
+                                                    md=8,
+                                                    lg=8,
                                                 ),
                                             ],
-                                            className="g-2 mb-3 align-items-stretch",
+                                            className="g-2 mb-2",
+                                        ),
+                                        # Row 2: Detection Signals - Horizontal
+                                        html.Div(
+                                            [
+                                                html.Div(
+                                                    "Detection Signals",
+                                                    className="metric-label mb-2",
+                                                ),
+                                                html.Div(
+                                                    id="detail-subscores",
+                                                    style={
+                                                        "display": "flex",
+                                                        "flexDirection": "row",
+                                                        "flexWrap": "wrap",
+                                                        "gap": "8px",
+                                                    },
+                                                ),
+                                            ],
+                                            className="metric-container p-3 mb-3",
                                         ),
                                         # Detail tabs with professional styling
                                         dbc.Card(
@@ -1009,14 +954,10 @@ def create_events_tab():
                                                     },
                                                 ),
                                             ],
-                                            style={
-                                                "backgroundColor": "rgba(255,255,255,0.02)",
-                                                "border": "1px solid rgba(255,255,255,0.06)",
-                                                "borderRadius": "12px",
-                                            },
+                                            className="metric-container",
                                         ),
                                     ],
-                                    style={"padding": "16px"},
+                                    className="p-3",
                                 ),
                             ],
                             style=CARD_STYLE,

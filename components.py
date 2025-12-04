@@ -18,22 +18,9 @@ from utils import mini_progress, incident_badges, get_confidence_interpretation
 log = logging.getLogger(__name__)
 
 # Design System Constants - COMPACT
-INCIDENT_CARD_STYLE = {
-    "background": "linear-gradient(135deg, #1C1C1F 0%, #18181B 100%)",
-    "border": "1px solid rgba(255, 255, 255, 0.1)",
-    "borderRadius": "10px",
-    "marginBottom": "8px",
-    "transition": "all 0.2s ease",
-    "overflow": "hidden",
-}
-
-ACTION_BUTTON_COMPACT = {
-    "borderRadius": "6px",
-    "fontWeight": "500",
-    "fontSize": "0.7rem",
-    "padding": "4px 8px",
-    "transition": "all 0.2s ease",
-}
+# Design System Constants - DEPRECATED, use CSS classes
+# INCIDENT_CARD_STYLE = { ... }
+# ACTION_BUTTON_COMPACT = { ... }
 
 
 def make_incident_card(site_id, inc, detector):
@@ -94,40 +81,42 @@ def make_incident_card(site_id, inc, detector):
     # Compact signal bars - inline horizontal
     def compact_signal(name, value, color):
         val = float(value) if value else 0
+        # Convert 0-1 range to percentage (0-100)
+        pct = min(val * 100, 100)
         return html.Div(
             [
                 html.Span(
                     name,
                     style={
-                        "fontSize": "0.6rem",
-                        "color": "#888",
-                        "width": "45px",
+                        "fontSize": "0.85rem",
+                        "color": "#999",
+                        "width": "48px",
                         "display": "inline-block",
                     },
                 ),
                 html.Div(
                     html.Div(
                         style={
-                            "width": f"{min(val, 100)}%",
+                            "width": f"{pct}%",
                             "height": "100%",
                             "backgroundColor": color,
-                            "borderRadius": "2px",
+                            "borderRadius": "3px",
                         }
                     ),
                     style={
                         "flex": "1",
-                        "height": "6px",
+                        "height": "8px",
                         "backgroundColor": "rgba(255,255,255,0.1)",
-                        "borderRadius": "2px",
+                        "borderRadius": "3px",
                         "marginRight": "4px",
                     },
                 ),
                 html.Span(
-                    f"{val:.0f}",
+                    f"{pct:.0f}%",
                     style={
-                        "fontSize": "0.6rem",
-                        "color": "#aaa",
-                        "width": "20px",
+                        "fontSize": "0.9rem",
+                        "color": "#ccc",
+                        "width": "38px",
                         "textAlign": "right",
                     },
                 ),
@@ -135,8 +124,8 @@ def make_incident_card(site_id, inc, detector):
             style={
                 "display": "flex",
                 "alignItems": "center",
-                "gap": "4px",
-                "marginBottom": "2px",
+                "gap": "5px",
+                "marginBottom": "3px",
             },
         )
 
@@ -167,18 +156,18 @@ def make_incident_card(site_id, inc, detector):
     if inc.get("suppressed_by_pattern"):
         pattern_indicator = html.Div(
             [
-                html.Span("🚫", style={"fontSize": "0.85rem"}),
+                html.Span("🚫", style={"fontSize": "1rem"}),
                 html.Span(
                     " SUPPRESSED ",
                     style={
                         "fontWeight": "600",
                         "color": "#94A3B8",
-                        "fontSize": "0.65rem",
+                        "fontSize": "0.9rem",
                     },
                 ),
                 html.Span(
                     f"({inc.get('pattern_match_score', 0):.0%})",
-                    style={"color": "#64748B", "fontSize": "0.6rem"},
+                    style={"color": "#64748B", "fontSize": "0.85rem"},
                 ),
             ],
             style={
@@ -194,18 +183,18 @@ def make_incident_card(site_id, inc, detector):
         top_match = matches[0] if matches else {}
         pattern_indicator = html.Div(
             [
-                html.Span("🧠", style={"fontSize": "0.85rem"}),
+                html.Span("🧠", style={"fontSize": "1rem"}),
                 html.Span(
                     " POSSIBLE FALSE ALARM ",
                     style={
                         "fontWeight": "600",
                         "color": "#FCD34D",
-                        "fontSize": "0.65rem",
+                        "fontSize": "0.9rem",
                     },
                 ),
                 html.Span(
                     f"({top_match.get('final_score', 0):.0%})",
-                    style={"color": "#A1A1AA", "fontSize": "0.6rem"},
+                    style={"color": "#A1A1AA", "fontSize": "0.85rem"},
                 ),
             ],
             style={
@@ -234,9 +223,9 @@ def make_incident_card(site_id, inc, detector):
                                 style={
                                     "backgroundColor": "rgba(59,130,246,0.15)",
                                     "color": "#60A5FA",
-                                    "padding": "1px 5px",
+                                    "padding": "2px 6px",
                                     "borderRadius": "3px",
-                                    "fontSize": "0.7rem",
+                                    "fontSize": "0.85rem",
                                     "fontFamily": "monospace",
                                 },
                             ),
@@ -288,7 +277,7 @@ def make_incident_card(site_id, inc, detector):
                         [
                             html.Div(
                                 [
-                                    html.Span("📅 ", style={"fontSize": "0.7rem"}),
+                                    html.Span("📅 ", style={"fontSize": "0.85rem"}),
                                     html.Span(
                                         str(
                                             pd.to_datetime(inc["start_day"]).strftime(
@@ -296,13 +285,13 @@ def make_incident_card(site_id, inc, detector):
                                             )
                                         ),
                                         style={
-                                            "fontSize": "0.75rem",
+                                            "fontSize": "0.9rem",
                                             "color": "#E4E4E7",
                                         },
                                     ),
                                     html.Span(
                                         " → ",
-                                        style={"color": "#555", "fontSize": "0.7rem"},
+                                        style={"color": "#666", "fontSize": "0.85rem"},
                                     ),
                                     html.Span(
                                         str(
@@ -311,7 +300,7 @@ def make_incident_card(site_id, inc, detector):
                                             )
                                         ),
                                         style={
-                                            "fontSize": "0.75rem",
+                                            "fontSize": "0.9rem",
                                             "color": "#E4E4E7",
                                         },
                                     ),
@@ -326,11 +315,11 @@ def make_incident_card(site_id, inc, detector):
                         [
                             html.Div(
                                 [
-                                    html.Span("💧", style={"fontSize": "0.7rem"}),
+                                    html.Span("💧", style={"fontSize": "0.9rem"}),
                                     html.Span(
                                         f" {vol_kl:.1f}kL",
                                         style={
-                                            "fontSize": "0.8rem",
+                                            "fontSize": "1rem",
                                             "fontWeight": "600",
                                             "color": "#EF4444",
                                         },
@@ -340,23 +329,23 @@ def make_incident_card(site_id, inc, detector):
                             ),
                             html.Div(
                                 [
-                                    html.Span("📊", style={"fontSize": "0.65rem"}),
+                                    html.Span("📊", style={"fontSize": "0.85rem"}),
                                     html.Span(
                                         f" {float(leak_score):.0f}%",
                                         style={
-                                            "fontSize": "0.75rem",
+                                            "fontSize": "0.95rem",
                                             "fontWeight": "600",
                                             "color": "#F59E0B",
                                         },
                                     ),
                                     html.Span(
                                         " / ",
-                                        style={"color": "#555", "fontSize": "0.7rem"},
+                                        style={"color": "#666", "fontSize": "0.9rem"},
                                     ),
                                     html.Span(
                                         f"Δ{delta_nf:.0f}",
                                         style={
-                                            "fontSize": "0.7rem",
+                                            "fontSize": "0.9rem",
                                             "color": "#3B82F6",
                                         },
                                     ),
@@ -380,12 +369,12 @@ def make_incident_card(site_id, inc, detector):
                         [
                             html.Span(
                                 f"Confidence: ",
-                                style={"fontSize": "0.65rem", "color": "#888"},
+                                style={"fontSize": "0.9rem", "color": "#999"},
                             ),
                             html.Span(
                                 f"{confidence:.0f}%",
                                 style={
-                                    "fontSize": "0.75rem",
+                                    "fontSize": "0.95rem",
                                     "fontWeight": "600",
                                     "color": conf_color,
                                 },
@@ -431,7 +420,7 @@ def make_incident_card(site_id, inc, detector):
                         },
                         color="success",
                         size="sm",
-                        style=ACTION_BUTTON_COMPACT,
+                        className="action-btn--compact",
                         title="Acknowledge",
                     ),
                     dbc.Button(
@@ -442,7 +431,7 @@ def make_incident_card(site_id, inc, detector):
                         },
                         color="info",
                         size="sm",
-                        style=ACTION_BUTTON_COMPACT,
+                        className="action-btn--compact",
                         title="Watch",
                     ),
                     dbc.Button(
@@ -453,7 +442,7 @@ def make_incident_card(site_id, inc, detector):
                         },
                         color="danger",
                         size="sm",
-                        style=ACTION_BUTTON_COMPACT,
+                        className="action-btn--compact",
                         title="Escalate",
                     ),
                     dbc.Button(
@@ -465,7 +454,7 @@ def make_incident_card(site_id, inc, detector):
                         color="primary",
                         size="sm",
                         outline=True,
-                        style=ACTION_BUTTON_COMPACT,
+                        className="action-btn--compact",
                         title="Resolved",
                     ),
                     dbc.Button(
@@ -477,7 +466,7 @@ def make_incident_card(site_id, inc, detector):
                         color="secondary",
                         size="sm",
                         outline=True,
-                        style=ACTION_BUTTON_COMPACT,
+                        className="action-btn--compact",
                         title="Ignore",
                     ),
                 ],
@@ -494,7 +483,7 @@ def make_incident_card(site_id, inc, detector):
                 style={"marginTop": "4px"},
             ),
         ],
-        style={"padding": "10px"},
+        className="p-2",
     )
 
-    return dbc.Card(body, className="incident-card", style=INCIDENT_CARD_STYLE)
+    return dbc.Card(body, className="incident-card")

@@ -353,6 +353,9 @@ def register_callbacks(app):
                 log_lines.append(msg)
 
             log_step(f"run_replay triggered by: {trig}")
+            log_step(
+                f"Date picker values - start_date_str: {start_date_str}, end_date_str: {end_date_str}"
+            )
 
             # Initialize or restore state
             # btn-replay: always start fresh
@@ -389,7 +392,8 @@ def register_callbacks(app):
 
                 for sid in selected_sites:
                     try:
-                        sc = compute_or_refresh_site(sid, sim_ts)
+                        # Pass start_date to filter analysis window
+                        sc = compute_or_refresh_site(sid, sim_ts, start_date=start)
                     except Exception as e:
                         log_step(
                             f"⚠️ {sid}: compute_or_refresh_site failed: {e}",
@@ -1014,14 +1018,14 @@ def register_callbacks(app):
                     value=max(0, min(v, vmax)),
                     number={
                         "suffix": suffix,
-                        "font": {"size": 24, "color": "#F4F4F5"},
+                        "font": {"size": 20, "color": "#F4F4F5"},
                     },
                     gauge={
                         "axis": {
                             "range": [0, vmax],
                             "tickwidth": 1,
                             "tickcolor": "rgba(255,255,255,0.1)",
-                            "tickfont": {"size": 10, "color": "#71717A"},
+                            "tickfont": {"size": 8, "color": "#71717A"},
                         },
                         "bar": {"color": bar_color, "thickness": 0.6},
                         "bgcolor": "rgba(255,255,255,0.05)",
@@ -1033,16 +1037,12 @@ def register_callbacks(app):
                             {"range": [70, 100], "color": "rgba(239, 68, 68, 0.1)"},
                         ],
                     },
-                    title={
-                        "text": title,
-                        "font": {"size": 12, "color": "#A1A1AA"},
-                    },
                     domain={"x": [0.1, 0.9], "y": [0.15, 0.85]},
                 )
             )
             fig.update_layout(
-                margin=dict(l=5, r=5, t=5, b=5),
-                height=120,
+                margin=dict(l=5, r=5, t=10, b=5),
+                height=165,
                 autosize=True,
                 template="plotly_dark",
                 paper_bgcolor="rgba(0,0,0,0)",
@@ -1079,9 +1079,9 @@ def register_callbacks(app):
             empty_evo_fig = go.Figure()
             empty_evo_fig.update_layout(
                 template="plotly_dark",
-                height=120,
+                height=165,
                 autosize=True,
-                margin=dict(l=10, r=10, t=5, b=10),
+                margin=dict(l=10, r=10, t=10, b=10),
                 title=dict(text="", font=dict(size=10)),
                 paper_bgcolor="rgba(0,0,0,0)",
                 plot_bgcolor="rgba(0,0,0,0)",
@@ -1128,9 +1128,9 @@ def register_callbacks(app):
                 fig_conf_evo = detector.create_confidence_evolution_mini(inc)
                 # Apply consistent styling to the generated chart
                 fig_conf_evo.update_layout(
-                    height=120,
+                    height=165,
                     autosize=True,
-                    margin=dict(l=10, r=10, t=5, b=10),
+                    margin=dict(l=10, r=10, t=10, b=10),
                     paper_bgcolor="rgba(0,0,0,0)",
                     plot_bgcolor="rgba(0,0,0,0)",
                 )
@@ -1139,9 +1139,9 @@ def register_callbacks(app):
                 fig_conf_evo = go.Figure()
                 fig_conf_evo.update_layout(
                     template="plotly_dark",
-                    height=120,
+                    height=165,
                     autosize=True,
-                    margin=dict(l=10, r=10, t=5, b=10),
+                    margin=dict(l=10, r=10, t=10, b=10),
                     title=dict(text="", font=dict(size=10)),
                     paper_bgcolor="rgba(0,0,0,0)",
                     plot_bgcolor="rgba(0,0,0,0)",
@@ -1157,9 +1157,9 @@ def register_callbacks(app):
             fig_conf_evo = go.Figure()
             fig_conf_evo.update_layout(
                 template="plotly_dark",
-                height=120,
+                height=165,
                 autosize=True,
-                margin=dict(l=10, r=10, t=5, b=10),
+                margin=dict(l=10, r=10, t=10, b=10),
                 title=dict(text="", font=dict(size=10)),
                 paper_bgcolor="rgba(0,0,0,0)",
                 plot_bgcolor="rgba(0,0,0,0)",
@@ -1170,12 +1170,87 @@ def register_callbacks(app):
                 ),
             )
 
-        # Subscores - render as badges
+        # Subscores - render as horizontal progress bars
         subs = inc.get("subscores_ui", {})
-        chips = [
-            dbc.Badge(f"{k}: {int(v*100)}%", color="secondary", className="me-1 mb-1")
-            for k, v in subs.items()
-        ]
+
+        # Signal colors matching the card design
+        signal_colors = {
+            "MNF": "#3B82F6",
+            "RESIDUAL": "#8B5CF6",
+            "CUSUM": "#EC4899",
+            "AFTERHRS": "#F59E0B",
+            "BURSTBF": "#EF4444",
+        }
+
+        # Short names for display
+        short_names = {
+            "MNF": "MNF",
+            "RESIDUAL": "RES",
+            "CUSUM": "CUM",
+            "AFTERHRS": "AFT",
+            "BURSTBF": "BUR",
+        }
+
+        def make_signal_bar(key, value):
+            val = float(value) if value else 0
+            pct = min(val * 100, 100)  # Convert 0-1 to percentage
+            color = signal_colors.get(key, "#3B82F6")
+            short_name = short_names.get(key, key[:3])
+
+            return html.Div(
+                [
+                    html.Span(
+                        short_name,
+                        style={
+                            "fontSize": "0.95rem",
+                            "color": "#999",
+                            "width": "40px",
+                            "display": "inline-block",
+                            "fontWeight": "500",
+                        },
+                    ),
+                    html.Div(
+                        html.Div(
+                            style={
+                                "width": f"{pct}%",
+                                "height": "100%",
+                                "backgroundColor": color,
+                                "borderRadius": "3px",
+                                "transition": "width 0.3s ease",
+                            }
+                        ),
+                        style={
+                            "flex": "1",
+                            "height": "12px",
+                            "backgroundColor": "rgba(255,255,255,0.1)",
+                            "borderRadius": "3px",
+                            "minWidth": "60px",
+                        },
+                    ),
+                    html.Span(
+                        f"{pct:.0f}%",
+                        style={
+                            "fontSize": "0.95rem",
+                            "color": color,
+                            "width": "45px",
+                            "textAlign": "right",
+                            "fontFamily": "Fira Code, monospace",
+                            "fontWeight": "600",
+                        },
+                    ),
+                ],
+                style={
+                    "display": "flex",
+                    "alignItems": "center",
+                    "gap": "10px",
+                    "padding": "8px 12px",
+                    "backgroundColor": "rgba(0,0,0,0.2)",
+                    "borderRadius": "6px",
+                    "minWidth": "160px",
+                },
+            )
+
+        chips = [make_signal_bar(k, v) for k, v in subs.items()]
 
         return hdr, fig_conf, fig_conf_evo, chips
 

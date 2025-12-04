@@ -1287,3 +1287,91 @@ button:focus-visible,
         background: white;
     }
 }
+
+/* ============================================
+   REFACTORING UTILITIES
+   ============================================ */
+.chart-h-small {
+    height: 140px;
+    width: 100%;
+}
+
+.chart-h-gauge {
+    height: 120px;
+    width: 100%;
+}
+
+.chart-h-medium {
+    height: 280px;
+    width: 100%;
+}
+
+.chart-h-full {
+    height: 100%;
+    width: 100%;
+    min-height: 300px;
+}
+
+.section-header {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #F4F4F5;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.card-header-custom {
+    background-color: transparent;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 16px 20px;
+}
+
+.card-body-custom {
+    padding: 16px;
+}
+
+.metric-label {
+    font-size: 0.95rem;
+    color: #71717A;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+}
+
+.metric-container {
+    background-color: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 12px 8px 8px 8px;
+    overflow: visible;
+}
+
+/* Fix Plotly chart overflow issues */
+.metric-container .js-plotly-plot {
+    overflow: hidden !important;
+}
+
+.metric-container .js-plotly-plot .plotly {
+    overflow: hidden !important;
+}
+
+.metric-container .svg-container {
+    overflow: hidden !important;
+}
+
+.incident-list-container {
+    max-height: 75vh;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+
+.action-btn--compact {
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    padding: 6px 12px;
+}
+
