@@ -1,0 +1,61 @@
+timezone: "Australia/Brisbane"
+night_start: 0
+night_end: 4
+after_hours_start: 16
+after_hours_end: 7
+baseline_window_days: 56
+abs_floor_lph: 100
+sustained_after_hours_delta_kl: 0.5
+spike_multiplier: 2.0
+spike_ref_percentile: 95
+cusum_k: 0.5
+cusum_h: 4.0
+score_weights:
+  MNF: 0.40
+  RESIDUAL: 0.20
+  CUSUM: 0.20
+  AFTERHRS: 0.10
+  BURSTBF: 0.10
+persistence_gates:
+  "<100":
+    default_min: 9
+    default_max: 10
+    fast_min: 7
+    fast_max: 7
+  "100-200":
+    default_min: 5
+    default_max: 7
+    fast_min: 5
+    fast_max: 7
+  "200-1000":
+    default_min: 3
+    default_max: 5
+    fast_min: 3
+    fast_max: 5
+  ">=1000":
+    default_min: 2
+    default_max: 3
+    fast_min: 2
+    fast_max: 3
+severity_bands_lph:
+  S1: [0, 200]
+  S2: [200, 1000]
+  S3: [1000, 5000]
+  S4: [5000, 10000]
+  S5: [10000, .inf]
+
+score_weights:
+  MNF: 0.40
+  RESIDUAL: 0.20
+  CUSUM: 0.20
+  AFTERHRS: 0.10
+  BURSTBF: 0.10
+
+
+min_leak_flow: 50
+between_night_cv_threshold: 0.3
+
+leak_log_path: "D:/End Use Projects/NSW - TAFE Leak detection model/TestOutput6/Logs/leak_log.csv"
+data_path: "D:/End Use Projects/NSW - TAFE Leak detection model/Data/Water Meter Data/April2024-April2025.xlsx"
+save_dir: "D:/End Use Projects/NSW - TAFE Leak detection model/TestOutput6/Plots"
+export_folder: "D:/End Use Projects/NSW - TAFE Leak detection model/TestOutput6/Logs"
