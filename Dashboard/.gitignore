@@ -1,0 +1,42 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Logs
+logs/
+*.log
+leak_detection.log
+
+# Data files (too large for git)
+*.xlsx
+*.xls
+*.csv
+!Action_Log.csv
+
+# Plots and outputs
+plots/
+*.png
+*.jpg
+*.html
+
+# Environment
+.env
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
