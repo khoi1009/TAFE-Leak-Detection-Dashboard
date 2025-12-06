@@ -39,6 +39,7 @@ from false_alarm_patterns import (
     get_category_display_name,
     get_pattern_summary,
 )
+from components_map import register_map_callbacks
 
 log = logging.getLogger(__name__)
 
@@ -2181,3 +2182,8 @@ def register_callbacks(app):
                 html.Div(pattern_cards),
             ]
         )
+
+    # -------------------------
+    # Register GIS Map callbacks
+    # -------------------------
+    register_map_callbacks(app)

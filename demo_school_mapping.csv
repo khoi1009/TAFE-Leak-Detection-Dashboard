@@ -1,0 +1,6 @@
+property_id,school_code,school_name,suburb,postcode,region,latitude,longitude,school_type,enrolment
+Property 11053,2189,Hunters Hill Public School,Hunters Hill,2110,Metropolitan North,-33.835121,151.151254,Primary School,228.0
+Property 11127,1249,Black Mountain Public School,Black Mountain,2365,Rural North,-30.308489,151.657688,Primary School,20.0
+Property 18978,1292,Bondi Beach Public School,Bondi Beach,2026,Metropolitan South,-33.8883,151.276821,Primary School,348.0
+Property 20998,8484,Sydney Secondary College Balmain Campus,Rozelle,2039,Metropolitan South,-33.858506,151.170052,Secondary School,854.0
+Property 52286,2319,Kogarah Public School,Kogarah,2217,Metropolitan South,-33.962028,151.136618,Primary School,456.0

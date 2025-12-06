@@ -56,6 +56,6 @@ min_leak_flow: 50
 between_night_cv_threshold: 0.3
 
 leak_log_path: "D:/End Use Projects/NSW - TAFE Leak detection model/TestOutput6/Logs/leak_log.csv"
-data_path: "D:/End Use Projects/NSW - TAFE Leak detection model/Data/Water Meter Data/April2024-April2025.xlsx"
+data_path: "D:/End Use Projects/NSW - TAFE Leak detection model/Model for Delivery - Modular/demo_data.xlsx"
 save_dir: "D:/End Use Projects/NSW - TAFE Leak detection model/TestOutput6/Plots"
 export_folder: "D:/End Use Projects/NSW - TAFE Leak detection model/TestOutput6/Logs"
