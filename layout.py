@@ -23,6 +23,15 @@ from config import APP_TITLE, cfg
 from data import ALL_SITES, DATE_INDEX, DATE_MARKS, DEFAULT_CUTOFF_IDX
 from utils import fig_placeholder, safe_read_actions, COLORS
 
+# Import map tab component
+try:
+    from components_map import create_map_tab
+
+    MAP_TAB_AVAILABLE = True
+except ImportError:
+    MAP_TAB_AVAILABLE = False
+    print("Warning: GIS Map tab not available - dash-leaflet may not be installed")
+
 # Set dark theme globally
 pio.templates.default = "plotly_dark"
 
@@ -1218,8 +1227,17 @@ def create_layout():
     UI UX Pro Max: Professional Dashboard Header + Navigation System
     """
     controls = create_controls()
+
+    # Build tabs list - include map tab if available
+    tab_list = [create_overview_tab(), create_events_tab(), create_log_tab()]
+    if MAP_TAB_AVAILABLE:
+        try:
+            tab_list.append(create_map_tab())
+        except Exception as e:
+            print(f"Warning: Could not create map tab: {e}")
+
     tabs = dbc.Tabs(
-        [create_overview_tab(), create_events_tab(), create_log_tab()],
+        tab_list,
         id="tabs",
         active_tab="tab-overview",
         persistence=True,
