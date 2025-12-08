@@ -1,0 +1,736 @@
+/* 
+ * TAFE Leak Detection Dashboard - Responsive Design System
+ * Based on UI UX Pro Max guidelines
+ * Supports: 320px, 375px, 414px, 768px, 1024px, 1440px+
+ * 
+ * Mobile-first approach with progressive enhancement
+ */
+
+/* ============================================
+   CSS CUSTOM PROPERTIES (Design Tokens)
+   Based on Analytics Dashboard color palette
+   ============================================ */
+:root {
+    /* Primary Colors - Analytics Dashboard */
+    --color-primary: #3B82F6;
+    --color-primary-light: #60A5FA;
+    --color-secondary: #1E293B;
+    --color-cta: #F97316;
+    --color-background: #151515;
+    --color-surface: #1E1E1E;
+    --color-text: #E2E8F0;
+    --color-text-muted: #94A3B8;
+    --color-border: #334155;
+    
+    /* Status Colors */
+    --color-success: #22C55E;
+    --color-warning: #F59E0B;
+    --color-danger: #EF4444;
+    --color-info: #3B82F6;
+    
+    /* Spacing Scale */
+    --space-xs: 0.25rem;   /* 4px */
+    --space-sm: 0.5rem;    /* 8px */
+    --space-md: 1rem;      /* 16px */
+    --space-lg: 1.5rem;    /* 24px */
+    --space-xl: 2rem;      /* 32px */
+    --space-2xl: 3rem;     /* 48px */
+    
+    /* Typography Scale */
+    --font-xs: 0.75rem;    /* 12px */
+    --font-sm: 0.875rem;   /* 14px */
+    --font-base: 1rem;     /* 16px - minimum for mobile */
+    --font-lg: 1.125rem;   /* 18px */
+    --font-xl: 1.25rem;    /* 20px */
+    --font-2xl: 1.5rem;    /* 24px */
+    --font-3xl: 1.875rem;  /* 30px */
+    --font-4xl: 2.25rem;   /* 36px */
+    
+    /* Touch Target Minimum (44x44px per UX guidelines) */
+    --touch-target-min: 44px;
+    
+    /* Border Radius */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    
+    /* Transitions */
+    --transition-fast: 150ms ease;
+    --transition-normal: 200ms ease;
+    --transition-slow: 300ms ease;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================
+   BASE RESETS & ACCESSIBILITY
+   ============================================ */
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Ensure minimum font size on mobile (UX guideline #67) */
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+/* Prevent horizontal scroll (UX guideline #69) */
+body {
+    overflow-x: hidden;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Focus states for keyboard navigation (UX guideline #28) */
+*:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* ============================================
+   TOUCH-FRIENDLY BUTTONS & INTERACTIVE ELEMENTS
+   Minimum 44x44px touch targets (UX guideline #22)
+   ============================================ */
+
+/* All buttons should have minimum touch target */
+.btn,
+button,
+[role="button"],
+.dash-dropdown,
+input[type="submit"],
+input[type="button"] {
+    min-height: var(--touch-target-min);
+    min-width: var(--touch-target-min);
+    cursor: pointer;
+    touch-action: manipulation;
+}
+
+/* Ensure adequate spacing between touch targets (UX guideline #23) */
+.btn + .btn,
+button + button {
+    margin-left: var(--space-sm);
+}
+
+/* ============================================
+   RESPONSIVE TYPOGRAPHY
+   ============================================ */
+
+/* Fluid typography using clamp() */
+h1, .h1 {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    line-height: 1.2;
+}
+
+h2, .h2 {
+    font-size: clamp(1.25rem, 3vw, 2rem);
+    line-height: 1.3;
+}
+
+h3, .h3 {
+    font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+    line-height: 1.4;
+}
+
+h4, .h4 {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    line-height: 1.4;
+}
+
+/* Body text - never below 16px on mobile */
+body, p, span, div {
+    font-size: max(var(--font-base), 16px);
+}
+
+/* ============================================
+   RESPONSIVE CONTAINER
+   ============================================ */
+
+.container-fluid {
+    padding-left: var(--space-sm);
+    padding-right: var(--space-sm);
+    max-width: 100%;
+}
+
+/* ============================================
+   MOBILE-FIRST BREAKPOINTS
+   320px (small phone) → 1440px+ (desktop)
+   ============================================ */
+
+/* -------- MOBILE (Default: 320px - 575px) -------- */
+
+/* Stack all columns vertically on mobile */
+.row {
+    flex-direction: column;
+}
+
+.row > [class*="col-"] {
+    width: 100%;
+    max-width: 100%;
+    flex: 0 0 100%;
+    padding-left: var(--space-sm);
+    padding-right: var(--space-sm);
+}
+
+/* KPI Cards - Full width, reduced height on mobile */
+.card {
+    margin-bottom: var(--space-md);
+}
+
+/* Make date picker full width on mobile */
+.DateRangePickerInput,
+.DateInput {
+    width: 100% !important;
+}
+
+/* Stack control buttons vertically on mobile */
+.controls-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.controls-buttons .btn {
+    width: 100%;
+}
+
+/* Full-width dropdowns on mobile */
+.Select,
+.dash-dropdown,
+.Select-control {
+    width: 100% !important;
+}
+
+/* Tabs scroll horizontally on mobile */
+.nav-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.nav-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.nav-tabs .nav-link {
+    white-space: nowrap;
+    padding: var(--space-sm) var(--space-md);
+    min-height: var(--touch-target-min);
+}
+
+/* Data tables - horizontal scroll wrapper (UX guideline #71) */
+.dash-table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+}
+
+/* Incident cards - full width on mobile */
+.incident-card {
+    width: 100%;
+}
+
+/* Modal full-screen on mobile */
+.modal-dialog {
+    margin: 0;
+    max-width: 100%;
+    min-height: 100vh;
+}
+
+.modal-content {
+    min-height: 100vh;
+    border-radius: 0;
+}
+
+/* Charts - ensure they don't overflow */
+.js-plotly-plot,
+.plotly-graph-div {
+    max-width: 100% !important;
+}
+
+/* -------- SMALL PHONES (375px) -------- */
+@media (min-width: 375px) {
+    .container-fluid {
+        padding-left: var(--space-md);
+        padding-right: var(--space-md);
+    }
+}
+
+/* -------- LARGE PHONES (414px) -------- */
+@media (min-width: 414px) {
+    /* Slightly larger KPI values */
+    .kpi-value {
+        font-size: var(--font-3xl);
+    }
+}
+
+/* -------- SMALL TABLETS (576px) -------- */
+@media (min-width: 576px) {
+    /* 2-column layout for KPI cards */
+    .row > .col-md-3 {
+        width: 50%;
+        flex: 0 0 50%;
+    }
+    
+    /* Side-by-side buttons */
+    .controls-buttons {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    
+    .controls-buttons .btn {
+        width: auto;
+    }
+    
+    /* Modal takes 90% width */
+    .modal-dialog {
+        margin: 1.75rem auto;
+        max-width: 90%;
+        min-height: auto;
+    }
+    
+    .modal-content {
+        min-height: auto;
+        border-radius: var(--radius-lg);
+    }
+}
+
+/* -------- TABLETS (768px) -------- */
+@media (min-width: 768px) {
+    .container-fluid {
+        padding-left: var(--space-lg);
+        padding-right: var(--space-lg);
+    }
+    
+    /* Row goes horizontal */
+    .row {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    
+    /* 4-column KPI layout */
+    .row > .col-md-3 {
+        width: 25%;
+        flex: 0 0 25%;
+    }
+    
+    /* 2-column layouts */
+    .row > .col-md-6 {
+        width: 50%;
+        flex: 0 0 50%;
+    }
+    
+    /* Sidebar + Content layout */
+    .row > .col-md-4 {
+        width: 33.333%;
+        flex: 0 0 33.333%;
+    }
+    
+    .row > .col-md-8 {
+        width: 66.666%;
+        flex: 0 0 66.666%;
+    }
+    
+    /* Controls in horizontal row */
+    .controls-row {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        gap: var(--space-md);
+    }
+    
+    /* Date picker inline */
+    .DateRangePickerInput {
+        display: inline-flex !important;
+    }
+    
+    /* Modal standard width */
+    .modal-dialog {
+        max-width: 500px;
+    }
+}
+
+/* -------- SMALL DESKTOPS (1024px) -------- */
+@media (min-width: 1024px) {
+    .container-fluid {
+        padding-left: var(--space-xl);
+        padding-right: var(--space-xl);
+    }
+    
+    /* Larger KPI values on desktop */
+    .kpi-value {
+        font-size: var(--font-4xl);
+    }
+    
+    /* Modal can be wider for complex forms */
+    .modal-dialog.modal-lg {
+        max-width: 800px;
+    }
+}
+
+/* -------- LARGE DESKTOPS (1440px+) -------- */
+@media (min-width: 1440px) {
+    .container-fluid {
+        max-width: 1400px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+/* ============================================
+   COMPONENT-SPECIFIC RESPONSIVE STYLES
+   ============================================ */
+
+/* ----- KPI Cards ----- */
+.kpi-card {
+    padding: var(--space-md);
+    text-align: center;
+}
+
+.kpi-title {
+    font-size: var(--font-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-xs);
+}
+
+.kpi-value {
+    font-size: var(--font-2xl);
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+@media (min-width: 768px) {
+    .kpi-title {
+        font-size: var(--font-base);
+    }
+    
+    .kpi-value {
+        font-size: var(--font-3xl);
+    }
+}
+
+@media (min-width: 1024px) {
+    .kpi-title {
+        font-size: var(--font-lg);
+    }
+    
+    .kpi-value {
+        font-size: 2.5rem;
+    }
+}
+
+/* ----- Incident List ----- */
+.incident-list {
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+@media (min-width: 768px) {
+    .incident-list {
+        max-height: 70vh;
+    }
+}
+
+/* ----- Event Detail Panel ----- */
+.event-detail-panel {
+    padding: var(--space-md);
+}
+
+@media (min-width: 768px) {
+    .event-detail-panel {
+        padding: var(--space-lg);
+    }
+}
+
+/* ----- Action Buttons ----- */
+.action-btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+}
+
+.action-btn-group .btn {
+    flex: 1 1 auto;
+    min-width: 120px;
+}
+
+@media (min-width: 576px) {
+    .action-btn-group .btn {
+        flex: 0 0 auto;
+    }
+}
+
+/* ----- Progress Bars (Signal Indicators) ----- */
+.signal-progress {
+    height: 8px;
+    border-radius: var(--radius-sm);
+}
+
+@media (min-width: 768px) {
+    .signal-progress {
+        height: 10px;
+    }
+}
+
+/* ----- Charts Container ----- */
+.chart-container {
+    width: 100%;
+    min-height: 250px;
+    max-height: 400px;
+}
+
+@media (min-width: 768px) {
+    .chart-container {
+        min-height: 300px;
+        max-height: 500px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .chart-container {
+        min-height: 350px;
+        max-height: 600px;
+    }
+}
+
+/* ----- Tabs Content ----- */
+.tab-content {
+    padding: var(--space-md);
+}
+
+@media (min-width: 768px) {
+    .tab-content {
+        padding: var(--space-lg);
+    }
+}
+
+/* ----- Control Panel ----- */
+.control-panel {
+    padding: var(--space-md);
+}
+
+@media (min-width: 768px) {
+    .control-panel {
+        padding: var(--space-lg);
+    }
+}
+
+/* ----- Replay Log ----- */
+.replay-log {
+    max-height: 100px;
+    font-size: var(--font-xs);
+}
+
+@media (min-width: 768px) {
+    .replay-log {
+        max-height: 150px;
+        font-size: var(--font-sm);
+    }
+}
+
+/* ============================================
+   DARK MODE OPTIMIZATIONS (OLED)
+   Based on UI UX Pro Max Dark Mode guidelines
+   ============================================ */
+
+/* True black for OLED power savings */
+.dark-mode,
+[data-bs-theme="dark"] {
+    --color-background: #000000;
+    --color-surface: #121212;
+}
+
+/* High contrast text on dark (WCAG AAA) */
+.dark-mode .text-primary {
+    color: #60A5FA; /* Lighter blue for contrast */
+}
+
+/* Subtle borders on dark backgrounds */
+.dark-mode .card,
+.dark-mode .modal-content {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ============================================
+   ACCESSIBILITY ENHANCEMENTS
+   ============================================ */
+
+/* Skip link for keyboard navigation (UX guideline #45) */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--color-primary);
+    color: white;
+    padding: var(--space-sm) var(--space-md);
+    z-index: 100;
+    transition: top var(--transition-fast);
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+/* Screen reader only text */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    :root {
+        --color-border: #ffffff;
+        --color-text: #ffffff;
+    }
+    
+    .card,
+    .btn,
+    input,
+    select {
+        border-width: 2px;
+    }
+}
+
+/* ============================================
+   LOADING & SKELETON STATES
+   ============================================ */
+
+.skeleton {
+    background: linear-gradient(
+        90deg,
+        var(--color-surface) 25%,
+        rgba(255, 255, 255, 0.1) 50%,
+        var(--color-surface) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Disable skeleton animation if user prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .skeleton {
+        animation: none;
+        background: var(--color-surface);
+    }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+
+@media print {
+    /* Hide non-essential elements */
+    .controls-buttons,
+    .nav-tabs,
+    .modal,
+    .skip-link {
+        display: none !important;
+    }
+    
+    /* White background for printing */
+    body {
+        background: white !important;
+        color: black !important;
+    }
+    
+    /* Full width content */
+    .container-fluid {
+        max-width: 100% !important;
+        padding: 0 !important;
+    }
+    
+    /* Page breaks */
+    .card {
+        page-break-inside: avoid;
+    }
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+/* Hide on specific breakpoints */
+.hide-mobile {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .hide-mobile {
+        display: block;
+    }
+    
+    .hide-tablet-up {
+        display: none;
+    }
+}
+
+@media (min-width: 1024px) {
+    .hide-desktop-up {
+        display: none;
+    }
+}
+
+/* Responsive text alignment */
+.text-center-mobile {
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .text-center-mobile {
+        text-align: left;
+    }
+}
+
+/* Responsive spacing */
+.mb-responsive {
+    margin-bottom: var(--space-md);
+}
+
+@media (min-width: 768px) {
+    .mb-responsive {
+        margin-bottom: var(--space-lg);
+    }
+}
+
+/* Touch-friendly spacing */
+.touch-spacing > * + * {
+    margin-top: var(--space-sm);
+}
+
+@media (min-width: 768px) {
+    .touch-spacing > * + * {
+        margin-top: 0;
+        margin-left: var(--space-md);
+    }
+}

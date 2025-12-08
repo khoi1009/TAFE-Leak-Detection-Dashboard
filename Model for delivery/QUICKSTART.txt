@@ -1,0 +1,90 @@
+==============================================================
+    TAFE NSW LEAK DETECTION DASHBOARD - QUICK START GUIDE
+==============================================================
+
+PREREQUISITES:
+- Python 3.9+ installed (download from python.org)
+- Internet connection (for first-time package installation)
+
+==============================================================
+STEP 1: INSTALL DEPENDENCIES (First Time Only)
+==============================================================
+
+Open Command Prompt or PowerShell and run:
+
+    cd "Model for delivery\frontend"
+    pip install -r requirements.txt
+
+This may take a few minutes to download all packages.
+
+==============================================================
+STEP 2: START THE APPLICATION
+==============================================================
+
+Option A - Double-click (Windows):
+    Double-click "start_login.bat"
+
+Option B - Command line:
+    cd "Model for delivery\frontend"
+    python login_app.py
+
+==============================================================
+STEP 3: ACCESS THE DASHBOARD
+==============================================================
+
+1. Open your web browser
+2. Go to: http://127.0.0.1:8050
+3. Login with demo credentials:
+   
+   Username: admin
+   Password: admin123
+   
+   OR
+   
+   Username: operator  
+   Password: operator123
+
+4. You will be automatically redirected to the dashboard
+
+==============================================================
+USING THE DASHBOARD
+==============================================================
+
+1. ANALYSIS TAB (Main View):
+   - Select properties from the dropdown
+   - Click "▶ Replay" to start leak detection simulation
+   - Watch as the system analyzes water usage day by day
+   - When a leak is detected, review the alert card
+   - Click "Acknowledge" or "Dismiss" to continue
+
+2. GIS MAP TAB:
+   - View all 50 schools on the interactive map
+   - Click "Leak Alerts Only" to see only affected schools
+   - Click on markers to see school details
+
+==============================================================
+TO STOP THE APPLICATION
+==============================================================
+
+Press Ctrl+C in the terminal window, or close the terminal.
+
+==============================================================
+TROUBLESHOOTING
+==============================================================
+
+Problem: "python is not recognized"
+Solution: Install Python and ensure "Add to PATH" is checked
+
+Problem: "ModuleNotFoundError"
+Solution: Run "pip install -r requirements.txt" again
+
+Problem: "Port already in use"
+Solution: Close other Python applications or restart your computer
+
+==============================================================
+SUPPORT
+==============================================================
+
+For technical support, contact the development team.
+
+==============================================================
