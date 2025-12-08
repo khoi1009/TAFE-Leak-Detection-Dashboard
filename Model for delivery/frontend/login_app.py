@@ -380,13 +380,15 @@ def start_dashboard():
     env["DASHBOARD_PORT"] = str(DASHBOARD_PORT)
 
     # Start the dashboard process
+    # NOTE: Do NOT capture stdout/stderr with PIPE - it causes the dashboard to hang
+    # when it tries to print output during replay operations
     try:
         dashboard_process = subprocess.Popen(
             [sys.executable, dashboard_script],
             cwd=script_dir,
             env=env,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
             creationflags=(
                 subprocess.CREATE_NEW_PROCESS_GROUP if sys.platform == "win32" else 0
             ),
